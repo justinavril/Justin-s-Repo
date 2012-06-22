@@ -5,11 +5,17 @@ public class CourseSessionTest extends TestCase {
 	private CourseSession session;
 	private Date startDate;
 	
+	public Date createDate(int year, int month, int date){
+		GregorianCalendar calendar = new GregorianCalendar();
+		
+		calendar.clear();
+		calendar.set(year, month-1, date);
+		
+		return calendar.getTime();
+	}
+	
 	public void setUp(){
-		int year = 103;
-		int month = 0;
-		int date = 6;
-		startDate = new Date(year, month, date);
+		startDate = createDate(2003, 1, 6);
 		session = new CourseSession("ENGL", "101", startDate);
 	}
 	
@@ -34,20 +40,17 @@ public class CourseSessionTest extends TestCase {
 	}
 	
 	public void testCourseDates(){
-		int year = 103;
-		int month = 0;
-		int date = 6;
-		
-		Date startDate = new Date(year, month, date);
-		
-		CourseSession session = new CourseSession("ABCD", "200", startDate);
-		
-		year = 103;
-		month = 3;
-		date = 25;
-		
-		Date sixteenWeeksOut = new Date(year, month, date);
+
+		Date sixteenWeeksOut = createDate(2003, 4, 25);
 		
 		assertEquals(sixteenWeeksOut, session.getEndDate());
+	}
+	
+	public void testRosterReport(){
+		session.enroll(new Student("A"));
+		session.enroll(new Student("B"));
+		
+		String rosterReport = session.getRosterReport();
+		assertEquals(CourseSession.ROSTER_REPORT_HEADER +"A\nB\n"+ CourseSession.ROSTER_REPORT_FOOTER +"2\n", rosterReport);
 	}
 }
