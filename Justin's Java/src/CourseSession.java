@@ -5,10 +5,14 @@ import java.util.*;
  * Provides a representation of a single-semester
  * session of a specific university course.
  * @author justinwu
- *
+ * 
  */
 
 public class CourseSession {
+	static final String NEWLINE = System.getProperty("line.separator");
+	static final String ROSTER_REPORT_HEADER = "Student"+ NEWLINE +"----"+ NEWLINE;
+	static final String ROSTER_REPORT_FOOTER = NEWLINE +"# students = ";
+
 	final int sessionLength = 16;
 	final int daysInWeek = 7;
 	final int daysFromFridayToMonday = 3;
@@ -80,15 +84,12 @@ public class CourseSession {
 		
 		buffer.append(ROSTER_REPORT_HEADER);
 		
-		Student student = students.get(0);
-		buffer.append(student.getName());
-		buffer.append('\n');
+		for (Student student : students){
+			buffer.append(student.getName());
+			buffer.append(NEWLINE);
+		}
 		
-		student = students.get(1);
-		buffer.append(student.getName());
-		buffer.append('\n');
-		
-		buffer.append(ROSTER_REPORT_FOOTER + students.size() +"\n");
+		buffer.append(ROSTER_REPORT_FOOTER + students.size() +NEWLINE);
 		
 		return buffer.toString();
 	}
